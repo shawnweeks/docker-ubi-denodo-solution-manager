@@ -8,16 +8,16 @@ monitor() {
     do   
         if ! ps ux | grep -v grep | grep 'DENODO_APP=Denodo Platform License Manager 7.0' > /dev/null; then        
             echo "License Manager Not Running - Exiting Now"
-            exit 1
+            shutdown
         elif ! ps ux | grep -v grep | grep 'DENODO_APP=Denodo VDP Server 7.0'> /dev/null; then
             echo "VQL Server not Running - Exiting Now"
-            exit 2
+            shutdown
         elif ! ps ux | grep -v grep | grep 'DENODO_APP=Denodo Platform Solution Manager 7.0'> /dev/null; then        
             echo "Solution Manager Not Runnig - Exiting Now"
-            exit 3
+            shutdown
         elif ! ps ux | grep -v grep | grep 'apache-tomcat'> /dev/null; then        
             echo "Web Tool Not Running - Exiting Now"
-            exit 4
+            shutdown
         else
             sleep 30
         fi
