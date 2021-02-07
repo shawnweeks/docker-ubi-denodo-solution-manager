@@ -6,25 +6,25 @@ umask 0027
 monitor() {
     while true
     do   
-        if ! ps ux | grep -v grep | grep 'DENODO_APP=Denodo Platform License Manager 7.0' > /dev/null; then        
+        sleep 30
+        PS_OUTPUT=$(ps ux)
+        if [[ "$PS_OUTPUT" != *'Denodo Platform License Manager 7.0'* ]]; then
             echo "License Manager Not Running - Exiting Now"
             shutdown
-        elif ! ps ux | grep -v grep | grep 'DENODO_APP=Denodo VDP Server 7.0'> /dev/null; then
+        elif [[ "$PS_OUTPUT" != *'Denodo VDP Server 7.0'* ]]; then
             echo "VQL Server not Running - Exiting Now"
             shutdown
-        elif ! ps ux | grep -v grep | grep 'DENODO_APP=Denodo Platform Solution Manager 7.0'> /dev/null; then        
+        elif [[ "$PS_OUTPUT" != *'Denodo Platform Solution Manager 7.0'* ]]; then  
             echo "Solution Manager Not Runnig - Exiting Now"
             shutdown
-        elif ! ps ux | grep -v grep | grep 'apache-tomcat'> /dev/null; then        
+        elif [[ "$PS_OUTPUT" != *'apache-tomcat'* ]]; then  
             echo "Web Tool Not Running - Exiting Now"
-            shutdown
-        else
-            sleep 30
+            shutdown            
         fi
     done
 }
 
-startup() {
+startup() {    
     echo Starting License Manager
     ${HOME}/bin/licensemanager_startup.sh
     echo Starting VQL Server    
@@ -49,6 +49,8 @@ shutdown() {
 }
 
 entrypoint.py
+
+${HOME}/bin/regenerateFiles.sh
 
 trap "shutdown" INT TERM
 

@@ -41,6 +41,10 @@ COPY [ "templates/*.j2", "/opt/jinja-templates/" ]
 
 RUN chmod 755 ${DENODO_HOME}/entrypoint.*
 
+VOLUME ${DENODO_HOME}/metadata/db
+VOLUME ${DENODO_HOME}/metadata/solution-manager/db
+
+EXPOSE 10090 10091 19090 19443
 
 USER ${DENODO_USER}
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0

@@ -36,18 +36,33 @@
     <!-- Define the Tomcat Stand-Alone Service -->
     <Service name="${com.denodo.tomcat.engine.name}">
 
-        <!-- Define a non-SSL HTTP/1.1 Connector -->
-        <Connector URIEncoding="UTF-8" connectionTimeout="20000" maxThreads="150" minSpareThreads="25" port="${com.denodo.tomcat.http.port}" redirectPort="${com.denodo.tomcat.https.port}" relaxedQueryChars="[]" sendReasonPhrase="true"/>
+        
 
-        <!-- Define a SSL Coyote HTTP/1.1 Connector on port 8443 -->
-        <!--
-        <Connector port="${com.denodo.tomcat.https.port}" maxHttpHeaderSize="8192"
-                   maxThreads="150" minSpareThreads="25"
-                   scheme="https" secure="true" SSLEnabled="true"
-                   protocols="TLSv1.2" honorCipherOrder="true"
+        {% if DENODO_SSL_ENABLED is defined and DENODO_SSL_ENABLED == 'true' %}
+        <!-- Define a SSL Coyote HTTP/1.1 Connector on port 8443 -->        
+        <Connector port="${com.denodo.tomcat.https.port}"
+                   maxHttpHeaderSize="8192"
+                   maxThreads="150"
+                   minSpareThreads="25"
+                   scheme="https"
+                   secure="true"
+                   SSLEnabled="true"
+                   protocols="TLSv1.2"
+                   honorCipherOrder="true"
                    sendReasonPhrase="true"
-                   keystoreFile="${com.denodo.security.ssl.keyStore}" keystorePass ="${com.denodo.security.ssl.keyStorePassword}"/>
-        -->
+                   keystoreFile="${com.denodo.security.ssl.keyStore}" 
+                   keystorePass ="${com.denodo.security.ssl.keyStorePassword}"/>
+        {% else %}
+        <!-- Define a non-SSL HTTP/1.1 Connector -->
+        <Connector URIEncoding="UTF-8"
+                   connectionTimeout="20000"
+                   maxThreads="150" 
+                   minSpareThreads="25" 
+                   port="${com.denodo.tomcat.http.port}" 
+                   redirectPort="${com.denodo.tomcat.https.port}" 
+                   relaxedQueryChars="[]" 
+                   sendReasonPhrase="true"/>
+        {% endif %}
 
         <!-- Define the top level container in our container hierarchy -->
         <Engine defaultHost="localhost" name="${com.denodo.tomcat.engine.name}">

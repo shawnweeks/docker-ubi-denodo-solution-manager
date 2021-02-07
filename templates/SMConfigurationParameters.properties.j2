@@ -3,11 +3,17 @@
 ###############################################################################
 server.port=10090
 
+{% if DENODO_SSL_ENABLED is defined and DENODO_SSL_ENABLED == 'true' %}
 # HTTPS
-# server.ssl.key-store=
-# server.ssl.key-store-password=
-# com.denodo.security.ssl.trustStore=
-# com.denodo.security.ssl.trustStorePassword=
+server.ssl.key-store={{ DENODO_SSL_KEYSTORE | default('') }}
+server.ssl.key-store-password={{ DENODO_SSL_KEYSTORE_PASSWORD | default('') }}
+#server.ssl.key-store-password.encrypted=
+{% if DENODO_SSL_TRUSTSTORE is defined %}
+com.denodo.security.ssl.trustStore={{ DENODO_SSL_TRUSTSTORE | default('') }}
+com.denodo.security.ssl.trustStorePassword={{ DENODO_SSL_TRUSTSTORE_PASSWORD | default('') }}
+#com.denodo.security.ssl.trustStorePassword.encrypted=
+{% endif %}
+{% endif %}
 
 # Spring configuration
 spring.hateoas.use-hal-as-default-json-media-type=false
@@ -80,7 +86,7 @@ jdbc.kerberosTokenTimeout=30000
 com.denodo.solutionmanager.vdp.confFile=/opt/denodo/conf/vdp/VDBConfiguration.properties
 # VDP authentication database
 com.denodo.solutionmanager.vdp.database=admin
-com.denodo.solutionmanager.vdp.hostname=localhost
+com.denodo.solutionmanager.vdp.hostname={{ DENODO_HOSTNAME | default('localhost') }}
 
 
 ###############################################################################
@@ -128,5 +134,3 @@ com.denodo.solutionmanagerserver.monitoring.resourcesDir=/opt/denodo/resources/s
 com.denodo.solutionmanagerserver.monitoring.workDir=/opt/denodo/resources/solution-manager-monitor/work
 com.denodo.solutionmanagerserver.monitoring.stopRunningMonitorsOnShutdown=true
 com.denodo.solutionmanagerserver.monitoring.checkRunningMonitorsOnStartup.timeoutInSecs=60
-#server.ssl.key-store-password.encrypted=
-#com.denodo.security.ssl.trustStorePassword.encrypted=

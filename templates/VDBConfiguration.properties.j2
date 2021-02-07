@@ -14,7 +14,7 @@ com.denodo.vdb.jdbcDriversExternalLibDir=/opt/denodo/lib-external/jdbc-drivers
 com.denodo.vdb.jarsDir=/opt/denodo/metadata/db/jar
 
 # Server Configuration
-com.denodo.vdb.vdbinterface.server.VDBManagerImpl.registryURL=localhost
+com.denodo.vdb.vdbinterface.server.VDBManagerImpl.registryURL={{ DENODO_HOSTNAME | default('localhost') }}
 com.denodo.vdb.vdbinterface.server.VDBManagerImpl.registryPort=19999
 com.denodo.vdb.vdbinterface.server.VDBManagerImpl.shutdownPort=19998
 com.denodo.vdb.vdbinterface.server.VDBManagerImpl.factoryPort=19997
@@ -412,14 +412,17 @@ com.denodo.wsgenerator.widget.webpartdir=/opt/denodo/resources/db/wsgenerator/wi
 ###############################################################################
 #  Java Security Parameters                                                   #
 ###############################################################################
-#com.denodo.security.ssl.enabled=true
-#com.denodo.security.ssl.keyStore=
-#com.denodo.security.ssl.keyStorePassword=
-#com.denodo.security.ssl.trustStore=
-
-# "changeit" is the default password for the "cacerts" TrustStore included in 
-# the Java Runtime Environment
-#com.denodo.security.ssl.trustStorePassword=changeit
+{% if DENODO_SSL_ENABLED is defined and DENODO_SSL_ENABLED == 'true' %}
+com.denodo.security.ssl.enabled=true
+com.denodo.security.ssl.keyStore={{ DENODO_SSL_KEYSTORE | default('') }}
+com.denodo.security.ssl.keyStorePassword={{ DENODO_SSL_KEYSTORE_PASSWORD | default('') }}
+#com.denodo.security.ssl.keyStorePassword.encrypted=
+{% if DENODO_SSL_TRUSTSTORE is defined %}
+com.denodo.security.ssl.trustStore={{ DENODO_SSL_TRUSTSTORE | default('') }}
+com.denodo.security.ssl.trustStorePassword={{ DENODO_SSL_TRUSTSTORE_PASSWORD | default('') }}
+#com.denodo.security.ssl.trustStorePassword.encrypted=
+{% endif %}
+{% endif %}
 
 ###############################################################################
 #  Parser Configuration Parameters                                            #
@@ -760,5 +763,3 @@ com.denodo.util.net.ProxyUtil.jars=lib/itp-runtime/js.jar,lib/contrib/denodo-com
 com.denodo.vdb.engine.wrapper.raw.jdbc.athena.bulkLoad.batchInsertSize=500000
 com.denodo.vdb.engine.wrapper.raw.jdbc.teradata.batchInsertSize=1000
 com.denodo.vdb.engine.wrapper.raw.jdbc.teradata.bulkLoad.batchInsertSize=1000
-#com.denodo.security.ssl.keyStorePassword.encrypted=
-#com.denodo.security.ssl.trustStorePassword.encrypted=
