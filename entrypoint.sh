@@ -10,16 +10,16 @@ monitor() {
         PS_OUTPUT=$(ps ux)
         if [[ "$PS_OUTPUT" != *'Denodo Platform License Manager 7.0'* ]]; then
             echo "License Manager Not Running - Exiting Now"
-            shutdown
+            shutdown 1
         elif [[ "$PS_OUTPUT" != *'Denodo VDP Server 7.0'* ]]; then
             echo "VQL Server not Running - Exiting Now"
-            shutdown
+            shutdown 1
         elif [[ "$PS_OUTPUT" != *'Denodo Platform Solution Manager 7.0'* ]]; then  
             echo "Solution Manager Not Runnig - Exiting Now"
-            shutdown
+            shutdown 1
         elif [[ "$PS_OUTPUT" != *'apache-tomcat'* ]]; then  
-            echo "Web Tool Not Running - Exiting Now"
-            shutdown            
+            echo "Web Container Not Running - Exiting Now"
+            shutdown 1          
         fi
     done
 }
@@ -33,11 +33,21 @@ startup() {
     ${HOME}/bin/solutionmanager_startup.sh
     echo Starting Solution Manager Web Tool
     ${HOME}/bin/solutionmanagerwebtool_startup.sh
+    tail -n +1 -F \
+        $HOME/logs/solution-manager/solution-manager.log \
+        $HOME/logs/license-manager/license-manager.log \
+        $HOME/logs/vdp/vdp.log \
+        $HOME/logs/vdp/vdp-cache.log \
+        $HOME/logs/vdp/vdp-queries.log \
+        $HOME/logs/vdp/vdp-requests.log \
+        $HOME/logs/apache-tomcat/tomcat.log \
+        $HOME/logs/apache-tomcat/denodows.log &
+    TAIL_PID="$!"    
     monitor
 }
 
 shutdown() {
-     echo Stopping Solution Manager Web Tool
+    echo Stopping Solution Manager Web Tool
     ${HOME}/bin/solutionmanagerwebtool_shutdown.sh
     echo Stopping Solution Manager
     ${HOME}/bin/solutionmanager_shutdown.sh
@@ -45,7 +55,9 @@ shutdown() {
     ${HOME}/bin/vqlserver_shutdown.sh
     echo Stopping License Manager
     ${HOME}/bin/licensemanager_shutdown.sh
-    exit 0    
+    echo Stopping Logging
+    kill -sigterm $TAIL_PID
+    exit ${1:-0}    
 }
 
 entrypoint.py

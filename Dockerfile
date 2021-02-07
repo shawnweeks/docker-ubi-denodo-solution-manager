@@ -16,7 +16,7 @@ RUN yum install -y unzip java-1.8.0-openjdk-devel && \
     unzip /tmp/${DENODO_UPDATE_PACKAGE} -d /tmp && \
     mv /tmp/denodo-solutionmanager-v70-update-*.jar /tmp/denodo-install-solutionmanager-7.0/denodo-update/denodo-update.jar && \
     sh /tmp/denodo-install-solutionmanager-7.0/installer_cli.sh install --autoinstaller /tmp/denodo_response.xml && \
-    rm -rf /opt/denodo/jre
+    rm -rf /opt/denodo/jre /opt/denodo/logs/*/*.log
 
 ###############################################################################
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
