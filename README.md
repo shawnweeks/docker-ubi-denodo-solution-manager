@@ -17,9 +17,10 @@ docker build \
 ```shell
 docker run --init -it --rm \
     --name denodo-solman  \
+    --network denodo \
     -h localhost \
-    -v $(pwd)/denodo.lic:/opt/denodo/conf/denodo.lic \
-    -v denodo-solman-data:/metadata/solution-manager/db \
+    -v $(pwd)/denodo.lic:/opt/denodo/license/denodo.lic \
+    -v denodo-solman-data:/opt/denodo/metadata/solution-manager/db \
     -v denodo-solman-vdp-data:/opt/denodo/metadata/db \
     -p 10090:10090 \
     -p 10091:10091 \
