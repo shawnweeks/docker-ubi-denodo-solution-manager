@@ -5,8 +5,8 @@ ARG BASE_TAG=8.3
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG} as build
 
 ARG DENODO_VERSION
-ARG DENODO_PACKAGE=denodo-install-solutionmanager-7.0-20180330-linux64.zip
-ARG DENODO_UPDATE_PACKAGE=denodo-solutionmanager-v70-update-${DENODO_VERSION}.zip
+ARG DENODO_PACKAGE=denodo-install-solutionmanager-8.0-ga-linux64.zip
+ARG DENODO_UPDATE_PACKAGE=denodo-solutionmanager-v80-update-${DENODO_VERSION}.zip
 
 COPY [ "${DENODO_PACKAGE}", "${DENODO_UPDATE_PACKAGE}", "denodo_response.xml", "/tmp/" ]
 
