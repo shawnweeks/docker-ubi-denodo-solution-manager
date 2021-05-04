@@ -3,6 +3,18 @@
 ###############################################################################
 server.port=10091
 
+# HTTPS
+{% if DENODO_SSL_ENABLED is defined and DENODO_SSL_ENABLED == 'true' %}
+server.ssl.key-store={{ DENODO_SSL_KEYSTORE | default('') }}
+server.ssl.key-store-password={{ DENODO_SSL_KEYSTORE_PASSWORD | default('') }}
+#server.ssl.key-store-password.encrypted=
+{% if DENODO_SSL_TRUSTSTORE is defined %}
+com.denodo.security.ssl.trustStore={{ DENODO_SSL_TRUSTSTORE | default('') }}
+#com.denodo.security.ssl.trustStorePassword={{ DENODO_SSL_TRUSTSTORE_PASSWORD | default('') }}
+#com.denodo.security.ssl.trustStorePassword.encrypted=
+{% endif %}
+{% endif %}
+
 # Storage Manager Factory
 com.denodo.solutionmanager.storage.StorageManagerFactory.className=com.denodo.solutionmanager.storage.DerbyStorageManager
 com.denodo.solutionmanager.storage.StorageManagerFactory.provider=embedded_derby
@@ -16,7 +28,7 @@ spring.data.rest.defaultMediaType=application/json
 spring.hateoas.use-hal-as-default-json-media-type=false
 spring.jpa.hibernate.ddl-auto=none
 
-java.env.DENODO_OPTS_START=-mx1024m
+java.env.DENODO_OPTS_START=-Xmx1024m
 com.denodo.licensemanager.rmi.host=localhost
 
 com.denodo.solutionmanager.utils.LicenseManager.iconRoute=/opt/denodo/resources/license-manager/ico
@@ -31,14 +43,4 @@ com.denodo.licensemanager.gracePeriod=7200
 com.denodo.licensemanager.licenseACKTimeout=2000
 # Server Refresh Interval (in minutes)
 com.denodo.licensemanager.refreshInterval=10
-
-{% if DENODO_SSL_ENABLED is defined and DENODO_SSL_ENABLED == 'true' %}
-server.ssl.key-store={{ DENODO_SSL_KEYSTORE | default('') }}
-server.ssl.key-store-password={{ DENODO_SSL_KEYSTORE_PASSWORD | default('') }}
-#server.ssl.key-store-password.encrypted=
-{% if DENODO_SSL_TRUSTSTORE is defined %}
-com.denodo.security.ssl.trustStore={{ DENODO_SSL_TRUSTSTORE | default('') }}
-com.denodo.security.ssl.trustStorePassword={{ DENODO_SSL_TRUSTSTORE_PASSWORD | default('') }}
-#com.denodo.security.ssl.trustStorePassword.encrypted=
-{% endif %}
-{% endif %}
+com.denodo.licensemanager.globalLicenseId=1
