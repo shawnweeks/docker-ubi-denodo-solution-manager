@@ -75,10 +75,6 @@ shutdown() {
     ${HOME}/bin/solutionmanagerwebtool_shutdown.sh
     echo Stopping Solution Manager
     ${HOME}/bin/solutionmanager_shutdown.sh
-    echo Stopping Design Studio
-    ${HOME}/bin/designstudio_shutdown.sh
-    echo Stopping Scheduler Web Admin
-    ${HOME}/bin/scheduler_webadmin_shutdown.sh
     echo Stopping VQL Server
     ${HOME}/bin/vqlserver_shutdown.sh
     echo Stopping License Manager
