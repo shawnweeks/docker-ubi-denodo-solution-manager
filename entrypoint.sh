@@ -87,7 +87,9 @@ if [[ "${DENODO_USE_EXTERNAL_METADATA,,}" == 'true' && -n "$DENODO_STORAGE_PASSW
     export DENODO_STORAGE_ENCRYPTEDPASSWORD="$(${HOME}/bin/encrypt_password.sh $DENODO_STORAGE_PASSWORD | grep 'Encrypted Password:' -v)"
 fi
 
-printf "%s" "$DENODO_LICENSE" > /opt/denodo/license/denodo.lic
+if [[ -n "$DENODO_LICENSE" ]]; then
+    printf "%s" "$DENODO_LICENSE" > /opt/denodo/license/denodo.lic
+fi
 
 entrypoint.py
 
