@@ -26,7 +26,7 @@ com.denodo.solutionmanager.jpaFlushSize=50
 com.denodo.solutionmanager.userAgent=Denodo-Solution-Manager
 
 # JVM options
-java.env.DENODO_OPTS_START=-mx1024m
+java.env.DENODO_OPTS_START=-Xmx1024m
 com.denodo.solutionmanager.rmi.host=localhost
 
 com.denodo.solutionmanager.utils.LicenseManager.iconRoute=/opt/denodo/resources/solution-manager/ico
@@ -95,6 +95,8 @@ com.denodo.solutionmanager.vdp.hostname={{ DENODO_HOSTNAME | default('localhost'
 # Waiting time until scheduler finish required actions, in miliseconds
 com.denodo.solutionmanager.scheduler.waitingTime=10000
 com.denodo.solutionmanager.scheduler.maxTryWaiting=10
+# Job execution timeout, in seconds
+com.denodo.solutionmanager.scheduler.jobsExecutionTimeout=21600
 
 
 ###############################################################################
@@ -132,5 +134,28 @@ com.denodo.solutionmanager.scripts.timeoutInSeconds=600
 # Directory for monitoring
 com.denodo.solutionmanagerserver.monitoring.resourcesDir=/opt/denodo/resources/solution-manager-monitor
 com.denodo.solutionmanagerserver.monitoring.workDir=/opt/denodo/resources/solution-manager-monitor/work
-com.denodo.solutionmanagerserver.monitoring.stopRunningMonitorsOnShutdown=true
+com.denodo.solutionmanagerserver.monitoring.stopRunningMonitorsOnShutdown=false
 com.denodo.solutionmanagerserver.monitoring.checkRunningMonitorsOnStartup.timeoutInSecs=60
+
+###############################################################################
+#  CLOUD CONFIGURATION                                                        #
+###############################################################################
+# URL of the authentication server
+com.denodo.solutionmanagerserver.authentication.oauth2.serverAccessTokenGeneratorUrl=https://auth.denodo.com/oauth2.0/accessToken
+# Base URL to get the available patches list from the Resources Server
+com.denodo.solutionmanagerserver.resourceServerAvailableUpdatesUrl=https://support.denodo.com/repository/items
+# Base URL to get the list of the available AMIs provided by Denodo from the Resources Server
+com.denodo.solutionmanagerserver.cloud.aws.resourceServerAvailableAmisProvidedUrl=https://support.denodo.com/repository/aws/list
+com.denodo.solutionmanagerserver.cloud.aws.resourceServerShareAmiUrl=https://support.denodo.com/repository/aws/share
+
+
+###############################################################################
+#  SSO CONFIGURATION                                                          #
+###############################################################################
+sso.confFile=/opt/denodo/conf/SSOConfiguration.properties
+sso.server.confFile=/opt/denodo/conf/denodo-sso/SSOTokenConfiguration.properties
+
+###############################################################################
+#  AWS CONFIGURATION                                                          #
+###############################################################################
+com.denodo.solutionmanager.cloud.aws.supportedInstanceTypes=^(t2\\.medium|(t2|m4|m5|c3|c4|c5)\\.(large|xlarge|2xlarge|4xlarge|8xlarge|9xlarge|10xlarge|12xlarge)|r3\\.(large|xlarge|2xlarge))$
