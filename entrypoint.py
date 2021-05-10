@@ -7,6 +7,7 @@ HOME = env["HOME"]
 if "DENODO_USE_EXTERNAL_METADATA" in env and env["DENODO_USE_EXTERNAL_METADATA"].lower() == "true":
     gen_cfg("metadb.properties.j2", "{}/conf/metadb.properties".format(HOME))
 
+gen_cfg("SMAdminConfiguration.properties.j2", "{}/conf/solution-manager-web-tool/SMAdminConfiguration.properties".format(HOME))
 gen_cfg("SMConfigurationParameters.properties.j2", "{}/conf/solution-manager/SMConfigurationParameters.properties".format(HOME))
 gen_cfg("LMConfigurationParameters.properties.j2", "{}/conf/license-manager/LMConfigurationParameters.properties".format(HOME))
 gen_cfg("VDBConfiguration.properties.j2", "{}/conf/vdp/VDBConfiguration.properties".format(HOME))
