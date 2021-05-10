@@ -12,7 +12,7 @@
     <com.izforge.izpack.panels.DenodoTreePacksPanel id="UNKNOWN (com.izforge.izpack.panels.DenodoTreePacksPanel)">
         <pack name="Common" selected="true"/>
         <pack name="VirtualDataPort" selected="true"/>
-        <pack name="vdpadmintool" selected="true"/>
+        <pack name="vdpadmintool" selected="false"/>
         <pack name="webdesignstudio" selected="true"/>
         <pack name="vdpserver" selected="true"/>
         <pack name="diagnosticmonitoringtool" selected="true"/>
@@ -24,7 +24,7 @@
         <pack name="scheduleradmin" selected="true"/>
     </com.izforge.izpack.panels.DenodoTreePacksPanel>
     <com.izforge.izpack.panels.InstallValidatorPanel id="UNKNOWN (com.izforge.izpack.panels.InstallValidatorPanel)">
-        <entry key="SELECTED_MODULES_VDP" value="VirtualDataPort,vdpserver,vdpadmintool,webdesignstudio,diagnosticmonitoringtool,"/>
+        <entry key="SELECTED_MODULES_VDP" value="VirtualDataPort,vdpserver,webdesignstudio,diagnosticmonitoringtool,"/>
         <entry key="SELECTED_MODULES_SOLUTIONMANAGER" value="SolutionManager,solutionmanagerserver,licensemanagerserver,solutionmanagerwebtool,"/>
         <entry key="SELECTED_MODULES_COMMON" value="Common,"/>
     </com.izforge.izpack.panels.InstallValidatorPanel>

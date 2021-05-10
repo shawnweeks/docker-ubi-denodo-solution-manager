@@ -10,7 +10,7 @@ ARG DENODO_UPDATE_PACKAGE=denodo-solutionmanager-v80-update-${DENODO_VERSION}.zi
 
 COPY [ "${DENODO_PACKAGE}", "${DENODO_UPDATE_PACKAGE}", "denodo_response_8.xml", "/tmp/" ]
 
-RUN yum install -y unzip java-1.8.0-openjdk-devel && \
+RUN yum install -y unzip java-11-openjdk-devel && \
     unzip /tmp/${DENODO_PACKAGE} -d /tmp/ && \
     mkdir -p /tmp/denodo-install-solutionmanager-8.0/denodo-update/ && \
     unzip /tmp/${DENODO_UPDATE_PACKAGE} -d /tmp && \
@@ -40,12 +40,13 @@ RUN yum install -y java-11-openjdk-devel procps git && \
 COPY --from=build --chown=${DENODO_USER}:${DENODO_GROUP} [ "${DENODO_HOME}/", "${DENODO_HOME}/" ]
 COPY --chown=${DENODO_USER}:${DENODO_GROUP} [ "entrypoint.sh", "entrypoint.py", "entrypoint_helpers.py", "${DENODO_HOME}/" ]
 COPY [ "templates/*.j2", "/opt/jinja-templates/" ]
+
 RUN chmod 755 ${DENODO_HOME}/entrypoint.*
 
 VOLUME ${DENODO_HOME}/metadata/db
 VOLUME ${DENODO_HOME}/metadata/solution-manager/db
 
-EXPOSE 10090 10091 19090 19097 19098 19099 19443 19995 19996 19997 19998 19999
+EXPOSE 10090 10091 19090 19443 19999
 
 USER ${DENODO_USER}
 ENV JAVA_HOME=/usr/lib/jvm/java-11
