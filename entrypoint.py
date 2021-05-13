@@ -1,17 +1,18 @@
 #!/usr/bin/python3
 
-from entrypoint_helpers import env, gen_cfg, set_props
+from entrypoint_helpers import env, gen_cfg
 
 HOME = env["HOME"]
 
-if "DENODO_USE_EXTERNAL_METADATA" in env and env["DENODO_USE_EXTERNAL_METADATA"].lower() == "true":
-    gen_cfg("metadb.properties.j2", "{}/conf/metadb.properties".format(HOME))
-
-gen_cfg("SMAdminConfiguration.properties.j2", "{}/conf/solution-manager-web-tool/SMAdminConfiguration.properties".format(HOME))
-gen_cfg("SMConfigurationParameters.properties.j2", "{}/conf/solution-manager/SMConfigurationParameters.properties".format(HOME))
-gen_cfg("LMConfigurationParameters.properties.j2", "{}/conf/license-manager/LMConfigurationParameters.properties".format(HOME))
-gen_cfg("VDBConfiguration.properties.j2", "{}/conf/vdp/VDBConfiguration.properties".format(HOME))
-#gen_cfg("ConfigurationParameters.properties.j2", "{}/resources/apache-tomcat/webapps/solution-manager-web-tool/WEB-INF/classes/ConfigurationParameters.properties".format(HOME))
-gen_cfg("tomcat.properties.j2", "{}/resources/apache-tomcat/conf/tomcat.properties".format(HOME))
-gen_cfg("server.xml.j2", "{}/resources/apache-tomcat/conf/server.xml".format(HOME))
-gen_cfg("ConfigurationParametersGeneral.template.j2", "{}/conf/solution-manager/denodo-monitor/ConfigurationParametersGeneral.template".format(HOME))
+# Setting Logging Format
+gen_cfg("license-manager-log4j2.xml.j2", "{}/conf/license-manager/log4j2.xml".format(HOME))
+gen_cfg("solution-manager-log4j2.xml.j2", "{}/conf/solution-manager/log4j2.xml".format(HOME))
+gen_cfg("db-tools-log4j2.xml.j2", "{}/conf/db-tools/log4j2.xml".format(HOME))
+gen_cfg("vdp-log4j2.xml.j2", "{}/conf/vdp/log4j2.xml".format(HOME))
+gen_cfg("denodo-sso-log4j2.xml.j2", "{}/resources/apache-tomcat/webapps/sso/WEB-INF/classes/log4j2.xml".format(HOME))
+gen_cfg("solution-manager-web-tool-log4j2.xml.j2", "{}/resources/apache-tomcat/webapps/solution-manager-web-tool/WEB-INF/classes/log4j2.xml".format(HOME))
+gen_cfg("denodo-design-studio-log4j2.xml.j2", "{}/resources/apache-tomcat/webapps/denodo-design-studio/WEB-INF/classes/log4j2.xml".format(HOME))
+gen_cfg("diagnostic-monitoring-tool-log4j2.xml.j2", "{}/resources/apache-tomcat/webapps/diagnostic-monitoring-tool/WEB-INF/classes/log4j2.xml".format(HOME))
+gen_cfg("denodo-scheduler-admin-log4j2.xml.j2", "{}/resources/apache-tomcat/webapps/webadmin#denodo-scheduler-admin/WEB-INF/classes/log4j2.xml".format(HOME))
+gen_cfg("apache-tomcat-log4j2.xml.j2", "{}/resources/apache-tomcat/lib/log4j2.xml".format(HOME))
+gen_cfg("apache-tomcat-logging.properties.j2", "{}/resources/apache-tomcat/conf/logging.properties".format(HOME))

@@ -16,10 +16,11 @@ RUN yum install -y unzip java-11-openjdk-devel && \
     unzip /tmp/${DENODO_UPDATE_PACKAGE} -d /tmp && \
     mv /tmp/denodo-solutionmanager-v80-update-*.jar /tmp/denodo-install-solutionmanager-8.0/denodo-update/denodo-update.jar && \
     sh /tmp/denodo-install-solutionmanager-8.0/installer_cli.sh install --autoinstaller /tmp/denodo_response_8.xml && \
-    mkdir -p /opt/denodo/license/ && \
-    ln -s /opt/denodo/license/denodo.lic /opt/denodo/conf/denodo.lic && \
+    cp /opt/denodo/lib/extensions/jdbc-drivers/postgresql-12/postgresql-42.2.5.jar /opt/denodo/lib/solution-manager-extensions/ && \
+    mkdir /opt/denodo/conf_original && \
+    mv /opt/denodo/conf/* /opt/denodo/conf_original/ && \
     rm -rf /opt/denodo/jre /opt/denodo/logs/*/*.log
-
+    
 ###############################################################################
 FROM ${BASE_REGISTRY}/${BASE_IMAGE}:${BASE_TAG}
 
@@ -38,15 +39,16 @@ RUN yum install -y java-11-openjdk-devel procps git && \
     chown ${DENODO_USER}:${DENODO_GROUP} ${DENODO_HOME} -R
 
 COPY --from=build --chown=${DENODO_USER}:${DENODO_GROUP} [ "${DENODO_HOME}/", "${DENODO_HOME}/" ]
-COPY --chown=${DENODO_USER}:${DENODO_GROUP} [ "entrypoint.sh", "entrypoint.py", "entrypoint_helpers.py", "${DENODO_HOME}/" ]
+COPY --chown=${DENODO_USER}:${DENODO_GROUP} [ "entrypoint*", "${DENODO_HOME}/" ]
+
 COPY [ "templates/*.j2", "/opt/jinja-templates/" ]
 
 RUN chmod 755 ${DENODO_HOME}/entrypoint.*
 
-VOLUME ${DENODO_HOME}/metadata/db
-VOLUME ${DENODO_HOME}/metadata/solution-manager/db
-
 EXPOSE 10090 10091 19090 19443 19999
+
+VOLUME /opt/denodo/metadata
+VOLUME /opt/denodo/conf
 
 USER ${DENODO_USER}
 ENV JAVA_HOME=/usr/lib/jvm/java-11
