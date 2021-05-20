@@ -18,7 +18,6 @@ docker run --init -it --rm \
     --name denodo-solman  \
     --network denodo \
     -h localhost \
-    -v $(pwd)/denodo.lic:/opt/denodo/license/denodo.lic \
     -v denodo-solman-data:/opt/denodo/metadata/solution-manager/db \
     -v denodo-solman-vdp-data:/opt/denodo/metadata/db \
     -p 10090:10090 \
@@ -32,7 +31,9 @@ docker run --init -it --rm \
     -p 19997:19997 \
     -p 19998:19998 \
     -p 19999:19999 \
-    ${REGISTRY}/denodo/solman:7.${DENODO_VERSION}
+    -e DENODO_RMI_HOSTNAME=localhost \
+    -e DENODO_LICENSE=<Your Denodo license> \
+    ${REGISTRY}/denodo/solman:8.${DENODO_VERSION}
 ```
 
 ### Run SSL Command
@@ -52,9 +53,8 @@ rm -f localhost.* ca.*
 docker run --init -it --rm \
     --name denodo-solman  \
     -h localhost \
-    -v $(pwd)/keystore.jks:/opt/denodo/conf/keystore.jks \
-    -v $(pwd)/truststore.jks:/opt/denodo/conf/truststore.jks \
-    -v $(pwd)/denodo.lic:/opt/denodo/conf/denodo.lic \
+    -v $(pwd)/keystore.jks:/opt/denodo/conf/local_keystore.jks \
+    -v $(pwd)/truststore.jks:/opt/denodo/conf/local_truststore.jks \
     -v denodo-solman-data:/metadata/solution-manager/db \
     -v denodo-solman-vdp-data:/opt/denodo/metadata/db \
     -p 10090:10090 \
@@ -68,43 +68,48 @@ docker run --init -it --rm \
     -p 19997:19997 \
     -p 19998:19998 \
     -p 19999:19999 \
+    -e DENODO_RMI_HOSTNAME=localhost \
+    -e DENODO_LICENSE=<Your Denodo license> \
     -e DENODO_SSL_ENABLED=true \
     -e DENODO_SSL_KEYSTORE=/opt/denodo/conf/keystore.jks \
     -e DENODO_SSL_KEYSTORE_PASSWORD=changeit \
     -e DENODO_SSL_TRUSTSTORE=/opt/denodo/conf/truststore.jks \
     -e DENODO_SSL_TRUSTSTORE_PASSWORD=changeit \
-    ${REGISTRY}/denodo/solman:7.${DENODO_VERSION}
+    ${REGISTRY}/denodo/solman:8.${DENODO_VERSION}
 ```
 
 ### Environment Variables
 | Variable Name | Description | Default Value |
 | --- | --- | --- |
-| DENODO_HOSTNAME | This must be set to the external hostname your accessing VDP at. See gotcha below. | localhost |
-| DENODO_SSL_ENABLED | | None |
-| DENODO_SSL_KEYSTORE | | None |
-| DENODO_SSL_KEYSTORE_PASSWORD | | None |
-| DENODO_SSL_TRUSTSTORE | | None |
-| DENODO_SSL_TRUSTSTORE_PASSWORD | | None |
-| DENODO_START_DESIGN_STUDIO | | true |
-| DENODO_START_SCHEDULER_WEB_ADMIN | | true |
-| DENODO_START_DIAGNOSTIC_AND_MONITORING | | true |
-| DENODO_USE_EXTERNAL_METADATA | | false |
+| DENODO_USE_EXTERNAL_DB | | false |
+| DENODO_STORAGE_PLUGIN | | |
+| DENODO_STORAGE_VERSION | | |
+| DENODO_STORAGE_DRIVER | | |
+| DENODO_STORAGE_DRIVER_PROPERTIES | | |
+| DENODO_STORAGE_CLASSPATH | | |
+| DENODO_STORAGE_URI | | |
+| DENODO_STORAGE_USER | | |
+| DENODO_STORAGE_PASSWORD | | |
 | DENODO_STORAGE_CATALOG | | |
-| DENODO_STORAGE_DATASOURCE_TESTONBORROW | | true |
-| DENODO_STORAGE_DATASOURCE_MAXACTIVE | | 100 |
-| DENODO_STORAGE_PLUGIN | | postgresql |
-| DENODO_STORAGE_ENCRYPTEDPASSWORD | The Denodo encrypted password. This is currently being generated from DENODO_STORAGE_PASSWORD | |
-| DENODO_STORAGE_PASSWORD | Plain-text password. Will be encrypted by Denodo. | |
-| DENODO_STORAGE_SHAREDMETADATA | | true |
-| DENODO_STORAGE_CLASSPATH | | postgresql-10 |
-| DENODO_STORAGE_URI | | jdbc\:postgresql\://postgres\:5432/denodo |
-| DENODO_STORAGE_DATASOURCE_INITIALSIZE | | 4 |
-| DENODO_STORAGE_DATASOURCE_VALIDATIONQUERY | | Select 1 |
-| DENODO_STORAGE_USER | | denodo |
-| DENODO_STORAGE_DRIVER | | org.postgresql.Driver |
-| DENODO_STORAGE_VERSION | | 10 |
 | DENODO_STORAGE_SCHEMA | | |
-| DENODO_LICENSE | The license string. You can also just mount the license file instead of passing the text into this environmental variable. | |
+| DENODO_STORAGE_INITIAL_SIZE | | 4 |
+| DENODO_STORAGE_MAX_ACTIVE | | 100 |
+| DENODO_STORAGE_PING_QUERY | | select 1 |
+| DENODO_SSL_ENABLED | | false |
+| DENODO_SSL_KEYSTORE_PASSWORD | | |
+| DENODO_SSL_TRUSTSTORE_PASSWORD | | |
+| DENODO_SSL_KEYSTORE | | |
+| DENODO_SSL_TRUSTSTORE | | |
+| DENODO_SSL_KEYSTORE_ALIAS | | |
+| DENODO_RMI_HOSTNAME | | |
+| DENODO_VDP_JAVA_OPTS | | -Xmx1024m -XX:NewRatio=4 |
+| DENODO_SM_JAVA_OPTS | | -Xmx1024m |
+| DENODO_LM_JAVA_OPTS | | -Xmx1024m |
+| DENODO_WEB_JAVA_OPTS | | -Xmx1024m -Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true -Dorg.apache.catalina.connector.CoyoteAdapter.ALLOW_BACKSLASH=true -Djava.locale.providers=COMPAT,SPI |
+| DENODO_START_DESIGN_STUDIO | | false |
+| DENODO_START_SCHEDULER_WEB_ADMIN | | false |
+| DENODO_START_DIAGNOSTIC_AND_MONITORING | | false |
+| DENODO_LICENSE | | |
 
 ### Solution Manager Default Ports
 | Server | Default Port |
