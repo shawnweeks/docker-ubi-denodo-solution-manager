@@ -106,9 +106,9 @@ configure_external_db() {
         --user "${DENODO_STORAGE_USER}" \
         --password "${DENODO_STORAGE_PASSWORD}" \
         ${DENODO_STORAGE_CATALOG:+--catalog} "${DENODO_STORAGE_CATALOG}" \
-        ${DENODO_STORAGE_CATALOG:+--schema} "${DENODO_STORAGE_SCHEMA}" \
+        ${DENODO_STORAGE_SCHEMA:+--schema} "${DENODO_STORAGE_SCHEMA}" \
         --initialSize  "${DENODO_STORAGE_INITIAL_SIZE:-4}" \
-        --maxActive "${DENODO_STORAGE_INITIAL_SIZE:-100}" \
+        --maxActive "${DENODO_STORAGE_MAX_ACTIVE:-100}" \
         --testConnections \
         --pingQuery "${DENODO_STORAGE_PING_QUERY:-select 1}" \
         --yes
