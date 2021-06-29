@@ -19,12 +19,12 @@
 
     <Loggers>
 
-        <Logger name="com.denodo" level="error" />
+        <Logger name="com.denodo" level="{{ DENODO_SSO_LOG_LEVEL | default('error') }}" />
 
-        <Logger name="com.denodo.webapp.security.sso" level="warn" />
-        <Logger name="com.denodo.webapp.security.sso.DenodoSSOWebApplication" level="info" />
+        <Logger name="com.denodo.webapp.security.sso" level="{{ DENODO_SSO_LOG_LEVEL | default('warn') }}" />
+        <Logger name="com.denodo.webapp.security.sso.DenodoSSOWebApplication" level="{{ DENODO_SSO_LOG_LEVEL | default('info') }}" />
 
-        <Root level="error">
+        <Root level="{{ DENODO_SSO_LOG_LEVEL | default('error') }}">
             <AppenderRef ref="FILEOUT" />
         </Root>
 

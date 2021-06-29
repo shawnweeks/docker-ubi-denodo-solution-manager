@@ -14,11 +14,11 @@
 
     <Loggers>
 
-        <Root level="error">
+        <Root level="{{ DENODO_SOLMAN_LOG_LEVEL | default('ERROR') }}">
             <AppenderRef ref="FILEOUT" />
         </Root>
-        <logger name="com.denodo.solutionmanager" level="ERROR" />
-        <logger name="org.springframework" level="ERROR" />
+        <logger name="com.denodo.solutionmanager" level="{{ DENODO_SOLMAN_LOG_LEVEL | default('ERROR') }}" />
+        <logger name="org.springframework" level="{{ DENODO_SOLMAN_LOG_LEVEL | default('ERROR') }}" />
     </Loggers>
 
 </Configuration>

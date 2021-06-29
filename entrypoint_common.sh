@@ -203,6 +203,59 @@ configure_java_opts() {
         ${HOME}/resources/apache-tomcat/conf/tomcat.properties
 }
 
+configure_sso() {
+    if ! [[ "${DENODO_SSO_ENABLED}" == 'true' ]]
+    then
+        return 0
+    fi
+
+    prop_replace \
+        "sso.url" \
+        "${DENODO_SSO_URL}" \
+        ${HOME}/conf/SSOConfiguration.properties
+    
+    prop_replace \
+        "sso.token-enabled" \
+        "true" \
+        ${HOME}/conf/SSOConfiguration.properties
+    
+    prop_replace \
+        "sso.enabled" \
+        "true" \
+        ${HOME}/conf/SSOConfiguration.properties                
+
+    prop_replace \
+        "authorization.token.enabled" \
+        "true" \
+        ${HOME}/conf/denodo-sso/SSOTokenConfiguration.properties
+    
+    prop_replace \
+        "authorization.token.signing.auto-generated" \
+        "true" \
+        ${HOME}/conf/denodo-sso/SSOTokenConfiguration.properties
+
+    prop_replace \
+        "authorization.type" \
+        "${DENODO_SSO_TYPE}" \
+        ${HOME}/conf/denodo-sso/SSOTokenConfiguration.properties
+    
+    if [[ "${DENODO_SSO_TYPE}" == 'saml' ]]
+    then
+        FILE=${HOME}/conf/denodo-sso/SSOTokenConfiguration.properties
+        prop_replace "saml.enabled" "true" ${FILE}
+        prop_replace "saml.use-general-signing" "${DENODO_SSO_SAML_SIGN_REQ}" ${FILE}
+        prop_replace "saml.sp-entityid" "${DENODO_SSO_SAML_ENTITY_ID}" ${FILE}
+        if [[ -n ${DENODO_SSO_SAML_METADATA_URL} ]]
+        then
+            prop_replace "saml.idp-metadata-url" "${DENODO_SSO_SAML_METADATA_URL}" ${FILE}
+        else
+            prop_replace "saml.idp-metadata-file" "${DENODO_SSO_SAML_METADATA_FILE}" ${FILE}        
+        fi
+        prop_replace "saml.extract-role.delegate" "${DENODO_SSO_SAML_EXTRACT_ROLE_DELEGATE}" ${FILE}
+        prop_replace "saml.extract-role.field" "${DENODO_SSO_SAML_EXTRACT_ROLE_FIELD}" ${FILE}
+    fi
+}
+
 configure() {
     START_DESIGN_STUDIO="${DENODO_START_DESIGN_STUDIO:-false}"
     START_SCHEDULER_WEB_ADMIN="${DENODO_START_SCHEDULER_WEB_ADMIN:-false}"

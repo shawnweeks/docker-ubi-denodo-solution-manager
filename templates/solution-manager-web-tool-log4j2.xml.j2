@@ -17,12 +17,12 @@
 
     <Loggers>
 
-        <Logger name="com.denodo" level="ERROR" />
-        <Logger name="org.thymeleaf" level="ERROR" />
-        <Logger name="org.springframework" level="ERROR" />
-        <Logger name="org.apache" level="ERROR" />
+        <Logger name="com.denodo" level="{{ DENODO_SOLMAN_WEB_LOG_LEVEL | default('ERROR') }}" />
+        <Logger name="org.thymeleaf" level="{{ DENODO_SOLMAN_WEB_LOG_LEVEL | default('ERROR') }}" />
+        <Logger name="org.springframework" level="{{ DENODO_SOLMAN_WEB_LOG_LEVEL | default('ERROR') }}" />
+        <Logger name="org.apache" level="{{ DENODO_SOLMAN_WEB_LOG_LEVEL | default('ERROR') }}" />
 
-        <Root level="ERROR">
+        <Root level="{{ DENODO_SOLMAN_WEB_LOG_LEVEL | default('ERROR') }}">
             <AppenderRef ref="FILEOUT" />
             <AppenderRef ref="STDOUT" />
         </Root>
