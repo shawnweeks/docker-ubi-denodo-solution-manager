@@ -22,13 +22,13 @@
 
     <Loggers>
 
-        <Logger name="com.denodo" level="WARN" additivity="false">
+        <Logger name="com.denodo" level="{{ DENODO_TOMCAT_LOG_LEVEL | default('WARN') }}" additivity="false">
             <AppenderRef ref="DENODOWS" />
         </Logger>
 
-        <Logger name="org.apache.catalina" level="INFO" />
+        <Logger name="org.apache.catalina" level="{{ DENODO_TOMCAT_LOG_LEVEL | default('INFO') }}" />
 
-        <Root level="ERROR">
+        <Root level="{{ DENODO_TOMCAT_LOG_LEVEL | default('ERROR') }}">
             <AppenderRef ref="TOMCAT" />
         </Root>
 

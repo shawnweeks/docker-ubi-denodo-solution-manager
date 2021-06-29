@@ -39,39 +39,39 @@
 
   <Loggers>
 
-    <Logger name="com.denodo" level="error" />
+    <Logger name="com.denodo" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" />
 
-    <Logger name="com.denodo.vdp.resourcemanager" level="error" />
+    <Logger name="com.denodo.vdp.resourcemanager" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" />
 
-    <Logger name="com.denodo.solutionmanager" level="error" />
+    <Logger name="com.denodo.solutionmanager" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" />
 
-    <Logger name="com.denodo.tomcat" level="info" />
+    <Logger name="com.denodo.tomcat" level="{{ DENODO_VDP_LOG_LEVEL | default('INFO') }}" />
 
-    <Logger name="org.apache.commons.betwixt" level="error" />
+    <Logger name="org.apache.commons.betwixt" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" />
 
-    <Logger name="org.apache.commons" level="error" />
+    <Logger name="org.apache.commons" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" />
 
-    <Logger name="org.enhydra.jdbc.xapool" level="fatal" />
+    <Logger name="org.enhydra.jdbc.xapool" level="{{ DENODO_VDP_LOG_LEVEL | default('FATAL') }}" />
 
-    <Logger name="com.google.api.client.http.HttpTransport" level="fatal" />
+    <Logger name="com.google.api.client.http.HttpTransport" level="{{ DENODO_VDP_LOG_LEVEL | default('FATAL') }}" />
 
-    <Logger name="com.microsoft.tfs" level="error" />
+    <Logger name="com.microsoft.tfs" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" />
 
-    <Logger name="com.denodo.vdp.derby" level="error" />
+    <Logger name="com.denodo.vdp.derby" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" />
 
-    <Logger name="com.denodo.vdp.requests" level="error" additivity="false">
+    <Logger name="com.denodo.vdp.requests" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" additivity="false">
       <AppenderRef ref="REQUESTOUT" />
     </Logger>
 
-    <Logger name="com.denodo.vdb.engine.ResultCache" level="error" additivity="false">
+    <Logger name="com.denodo.vdb.engine.ResultCache" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" additivity="false">
       <AppenderRef ref="CACHEOUT" />
     </Logger>
 
-    <Logger name="com.denodo.vdb.management.mbeans.request.RequestsManagementInfo" level="error" additivity="false">
+    <Logger name="com.denodo.vdb.management.mbeans.request.RequestsManagementInfo" level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}" additivity="false">
       <AppenderRef ref="QUERIESOUT" />
     </Logger>
 
-    <Root level="error">
+    <Root level="{{ DENODO_VDP_LOG_LEVEL | default('ERROR') }}">
       <AppenderRef ref="FILEOUT" />
     </Root>
 
